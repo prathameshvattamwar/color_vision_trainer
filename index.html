@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Vision Trainer Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- jsPDF Library (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- jsPDF AutoTable Plugin (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Color Vision Trainer <span class="pro-badge">Pro</span></h1>
+            <p>Sharpen your color perception with adaptive challenges.</p>
+        </header>
+
+        <main>
+            <div class="status-bar shadow-sm">
+                <div class="status-item">Level: <span id="level">1</span></div>
+                <div class="status-item">Score: <span id="score">0</span></div>
+                <div class="status-item">Accuracy: <span id="accuracy">100%</span></div>
+            </div>
+
+            <div id="instructions">
+                <p>Find and click the circle with the subtly different color.</p>
+                <button id="start-button" class="btn btn-start">Start Training</button>
+            </div>
+
+            <div id="game-area-wrapper" class="hidden">
+                 <p id="level-objective"></p> <!-- Objective message -->
+                 <div id="game-area">
+                    <!-- Circles will be generated here by JavaScript -->
+                 </div>
+            </div>
+
+
+            <div id="feedback-area">
+                <!-- Feedback messages like "Correct!" or "Try Again!" -->
+            </div>
+
+            <div id="results-area" class="hidden shadow-sm">
+                <h2>Session Complete!</h2>
+                <div class="results-grid">
+                    <p>Final Score:</p><p><strong id="final-score">0</strong></p>
+                    <p>Highest Level:</p><p><strong id="final-level">1</strong></p>
+                    <p>Overall Accuracy:</p><p><strong id="final-accuracy">100%</strong></p>
+                    <p>Total Attempts:</p><p><strong id="total-attempts">0</strong></p>
+                </div>
+                <div class="result-buttons">
+                    <button id="restart-button" class="btn btn-restart">Train Again</button>
+                    <button id="report-button" class="btn btn-report">Download Report (PDF)</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2024 Color Vision Training Solutions</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
