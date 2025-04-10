@@ -3,64 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Color Vision Trainer Pro</title>
+    <title>Advanced Color Vision Trainer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="style.css">
-    <!-- jsPDF Library (CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!-- jsPDF AutoTable Plugin (CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <!-- jsPDF Libraries (Keep as before) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js" defer></script>
+    <script src="script.js" defer></script>
 </head>
-<body>
+<body class=""> <!-- Theme class added by JS -->
     <div class="container">
         <header>
-            <h1>Color Vision Trainer <span class="pro-badge">Pro</span></h1>
-            <p>Sharpen your color perception with adaptive challenges.</p>
+            <h1>Advanced Color Vision Trainer</h1>
+            <button id="settings-button" class="icon-button" aria-label="Settings"><i class="fas fa-cog"></i></button>
+            <p>Train your eyes with adaptive challenges and multiple game modes.</p>
         </header>
 
         <main>
-            <div class="status-bar shadow-sm">
+            <!-- High Score Display -->
+            <div class="high-score-display">
+                <span><i class="fas fa-trophy"></i> High Score: <strong id="high-score">0</strong></span>
+                <span><i class="fas fa-star"></i> Max Level: <strong id="max-level">0</strong></span>
+            </div>
+
+            <!-- Game Mode Selection -->
+            <div id="mode-selection" class="mode-selection">
+                 <h2>Select Game Mode:</h2>
+                 <button class="btn btn-mode" data-mode="oddOneOut">Odd One Out</button>
+                 <button class="btn btn-mode" data-mode="colorMatch">Color Match</button>
+            </div>
+
+            <!-- Status Bar (Common for games) -->
+             <div id="status-bar" class="status-bar shadow-sm hidden">
                 <div class="status-item">Level: <span id="level">1</span></div>
                 <div class="status-item">Score: <span id="score">0</span></div>
                 <div class="status-item">Accuracy: <span id="accuracy">100%</span></div>
+                <!-- Mode Specific Status (Optional) -->
+                <div class="status-item mode-status" id="mode-specific-status"></div>
             </div>
 
+            <!-- Instructions / Start Area -->
             <div id="instructions">
-                <p>Find and click the circle with the subtly different color.</p>
-                <button id="start-button" class="btn btn-start">Start Training</button>
+                <p>Choose a mode above to begin training.</p>
+                <!-- Start button might be integrated into mode selection or appear after selection -->
+                <button id="start-button" class="btn btn-start hidden">Start <span id="start-mode-name"></span></button>
             </div>
 
+            <!-- Game Area Wrapper -->
             <div id="game-area-wrapper" class="hidden">
-                 <p id="level-objective"></p> <!-- Objective message -->
-                 <div id="game-area">
-                    <!-- Circles will be generated here by JavaScript -->
+                 <!-- Target Color Display for Color Match -->
+                 <div id="target-color-display" class="hidden">
+                     <p>Match this color:</p>
+                     <div id="target-color-swatch"></div>
                  </div>
+                 <!-- Objective / Level Info -->
+                 <p id="level-objective"></p>
+                 <!-- Main Grid/Options Area -->
+                 <div id="game-area"></div>
             </div>
 
+            <!-- Feedback -->
+            <div id="feedback-area"></div>
 
-            <div id="feedback-area">
-                <!-- Feedback messages like "Correct!" or "Try Again!" -->
-            </div>
-
+            <!-- Results -->
             <div id="results-area" class="hidden shadow-sm">
                 <h2>Session Complete!</h2>
                 <div class="results-grid">
+                    <p>Mode:</p><p><strong id="final-mode">N/A</strong></p>
                     <p>Final Score:</p><p><strong id="final-score">0</strong></p>
-                    <p>Highest Level:</p><p><strong id="final-level">1</strong></p>
+                    <p>Level Reached:</p><p><strong id="final-level">1</strong></p>
                     <p>Overall Accuracy:</p><p><strong id="final-accuracy">100%</strong></p>
                     <p>Total Attempts:</p><p><strong id="total-attempts">0</strong></p>
+                </div>
+                <div id="achievements-earned" class="achievements-earned">
+                    <!-- Achievements earned this session -->
                 </div>
                 <div class="result-buttons">
                     <button id="restart-button" class="btn btn-restart">Train Again</button>
                     <button id="report-button" class="btn btn-report">Download Report (PDF)</button>
                 </div>
             </div>
+
+             <!-- Achievements Display Area -->
+            <div id="achievements-display" class="achievements-display">
+                <h3><i class="fas fa-award"></i> Achievements Unlocked</h3>
+                <div id="achievements-list">
+                    <!-- Badges load here -->
+                    <p>Play games to unlock achievements!</p>
+                </div>
+            </div>
         </main>
 
         <footer>
-            <p>© 2024 Color Vision Training Solutions</p>
+            <p>© 2024 Advanced Color Vision Training</p>
         </footer>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-content">
+            <button id="close-settings-button" class="close-button" aria-label="Close Settings">×</button>
+            <h2><i class="fas fa-sliders-h"></i> Settings</h2>
+
+            <div class="setting-group">
+                <label for="theme-select"><i class="fas fa-palette"></i> Theme:</label>
+                <select id="theme-select">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
+            </div>
+
+            <div class="setting-group">
+                <label for="sound-toggle"><i class="fas fa-volume-up"></i> Sound Effects:</label>
+                <label class="switch">
+                    <input type="checkbox" id="sound-toggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <div class="setting-group">
+                <label for="focus-area-select"><i class="fas fa-bullseye"></i> Color Focus Area:</label>
+                <select id="focus-area-select">
+                    <option value="all">All Colors</option>
+                    <option value="rg">Red-Green Focus</option>
+                    <option value="by">Blue-Yellow Focus</option>
+                </select>
+                 <p class="setting-description">Tailor challenges for specific color vision deficiencies.</p>
+            </div>
+
+             <button id="reset-progress-button" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Reset All Progress</button>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="correct-sound" src="sounds/correct.wav" preload="auto"></audio> <!-- Replace with actual sound paths -->
+    <audio id="incorrect-sound" src="sounds/incorrect.wav" preload="auto"></audio>
+    <audio id="level-up-sound" src="sounds/level_up.wav" preload="auto"></audio>
+    <audio id="achievement-sound" src="sounds/achievement.wav" preload="auto"></audio>
+
 </body>
 </html>
