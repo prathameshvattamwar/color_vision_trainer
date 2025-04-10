@@ -668,7 +668,7 @@ body.dark-mode footer {
     padding: 25px 20px;
   }
   .setting-group {
-    flex-direction: column;
+/*     flex-direction: column; */
     align-items: stretch;
   }
   .setting-group label:first-child {
